@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eventos Cercanos</title>
+    <link rel="stylesheet" href="stylecaleve.css">
+</head>
+<body>
+    <header>
+        <h1>Eventos Cercanos</h1>
+    </header>
+    <main>
+        <div class="eventos">
+            <div class="evento">
+                <h2>Concierto Guns N' Roses</h2>
+                <p>Fecha: 15 de marzo de 2025</p>
+                <p>Lugar: Arena Monterrey</p>
+                <p>Descripción: ¡No te pierdas el mejor concierto de rock del año!</p>
+                <button>Asistir</button>
+            </div>
+            <div class="evento">
+                <h2>Feria del Libro</h2>
+                <p>Fecha: 20 de abril de 2024</p>
+                <p>Lugar: Centro Cultural Elena Garro</p>
+                <p>Descripción: Encuentra los mejores libros y conoce a tus autores favoritos.</p>
+                <button>Asistir</button>
+            </div>
+            <div class="evento">
+                <h2>Clase de Yoga</h2>
+                <p>Fecha: Todos los sábados</p>
+                <p>Lugar: Parque México</p>
+                <p>Descripción: Relájate y encuentra tu equilibrio con nuestra clase de yoga al aire libre.</p>
+                <button>Asistir</button>
+            </div>
+        </div>
+        <aside class="crear-evento">
+            <h2>Crea un evento en Cal-Eve</h2>
+            <button id="showFormBtn">Publicar evento</button>
+
+    <div id="eventForm">
+        <h1></h1>
+        <input type="text" id="title" placeholder="Título del evento"><br>
+        <input type="datetime-local" id="date"><br>
+        <input type="text" id="location" placeholder="Ubicación"><br>
+        <textarea id="description" placeholder="Descripción"></textarea><br>
+        <button id="submitBtn">Publicar</button>
+        <button id="cancelBtn">Cancelar</button>
+    </div>
+
+    <div id="events">
+        </div>
+
+    <div id="map"></div> <script>
+        const showFormBtn = document.getElementById('showFormBtn');
+        const eventForm = document.getElementById('eventForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const cancelBtn = document.getElementById('cancelBtn');
+        const eventsDiv = document.getElementById('events');
+        let events = []; 
+
+        showFormBtn.addEventListener('click', () => {
+            eventForm.style.display = 'block';
+            showFormBtn.style.display = 'none';
+        });
+
+        cancelBtn.addEventListener('click', () => {
+            eventForm.style.display = 'none';
+            showFormBtn.style.display = 'block';
+        });
+
+        submitBtn.addEventListener('click', () => {
+            const title = document.getElementById('title').value;
+            const date = document.getElementById('date').value;
+            const location = document.getElementById('location').value;
+            const description = document.getElementById('description').value;
+
+            const newEvent = { title, date, location, description };
+            events.push(newEvent);
+            displayEvents();
+            eventForm.style.display = 'none';
+            showFormBtn.style.display = 'block';
+            
+            document.getElementById('title').value = "";
+            document.getElementById('date').value = "";
+            document.getElementById('location').value = "";
+            document.getElementById('description').value = "";
+        });
+
+        function displayEvents() {
+            eventsDiv.innerHTML = ''; 
+            events.forEach(event => {
+                const eventDiv = document.createElement('div');
+                eventDiv.classList.add('event');
+                eventDiv.innerHTML = `
+                    <h3>${event.title}</h3>
+                    <p>Fecha: ${event.date}</p>
+                    <p>Ubicación: ${event.location}</p>
+                    <p>${event.description}</p>
+                `;
+                eventsDiv.appendChild(eventDiv);
+            });
+        }
+    </script>
+        </aside>
+    </main>
+</body>
+</html>
