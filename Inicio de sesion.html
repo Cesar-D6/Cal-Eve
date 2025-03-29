@@ -1,33 +1,221 @@
-<html>
+<!DOCTYPE html>
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inicio de sesion</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Inicio de Sesión</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #ff9800, #ff5722);
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background-color 0.5s, color 0.5s;
+        }
+
+        /* Modo Oscuro */
+        body.dark {
+            background: #212121;
+            color: #fff;
+        }
+
+        .login {
+            width: 400px;
+            background: #fff;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        /* Animación de Entrada */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .app-title h1 {
+            margin: 0;
+            color: #ff5722;
+            font-size: 2rem;
+        }
+
+        .control-group {
+            margin: 15px 0;
+            text-align: left;
+            position: relative;
+        }
+
+        input {
+            width: 70%;
+            padding: 12px;
+            margin: 8px auto;
+            display: block;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+            font-size: 1rem;
+        }
+
+        .btn {
+            width: 70%;
+            padding: 12px;
+            background: linear-gradient(135deg, #ff9800, #ff5722);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: transform 0.2s, background 0.3s;
+        }
+
+        .btn:hover {
+            background: #ff5722;
+            transform: scale(1.05);
+        }
+
+        /* Estilo del ícono dentro de los inputs */
+        .login-field-icon {
+            position: absolute;
+            left: 35px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #ff9800;
+        }
+
+        input.login-field {
+            padding-left: 40px;
+        }
+
+        /* Icono para Mostrar/Ocultar Contraseña */
+        .toggle-password {
+            position: absolute;
+            right: 60px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #ff9800;
+        }
+
+        /* Modo Oscuro */
+        #modo-oscuro {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #555;
+            color: white;
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        /* Link para Recuperar Contraseña */
+        .forgot-password {
+            color: #ff5722;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .forgot-password:hover {
+            text-decoration: underline;
+        }
+
+        /* Estilo para pantallas pequeñas */
+        @media (max-width: 500px) {
+            .login {
+                width: 90%;
+            }
+        }
+    </style>
 </head>
+
 <body>
-    <body>
-        <div class="login">
-            <div class="login-screen">
-                <div class="app-title">
-                    <h1>Bienvenido a Cal-Eve
-                    </h1>
-                </div>
-    
-                <div class="login-form">
-                    <div class="control-group">
-                    <input type="text" class="login-field" value="" placeholder="Usuario" id="login-name">
-                    <label class="login-field-icon fui-user" for="login-name"></label>
-                    </div>
-    
-                    <div class="control-group">
-                    <input type="password" class="login-field" value="" placeholder="Contraseña" id="login-pass">
-                    <label class="login-field-icon fui-lock" for="login-pass"></label>
-                    </div>
-                    <a class="btn btn-primary btn-large btn-block" href="file:///C:/Users/maste/OneDrive/Escritorio/Trabajos/Cal-Eve/Cal-Eve.html">Iniciar sesion</a>
-                </div>  
-            </div>
+    <i id="modo-oscuro" class="fas fa-moon" onclick="toggleModoOscuro()"></i>
+    <div class="login">
+        <div class="app-title">
+            <h1>🎉 Bienvenido a <span style="color: #ff9800;">Cal-Eve</span></h1>
         </div>
-    </body>
+
+        <div class="login-form">
+            <div class="control-group">
+                <label for="login-name">
+                    <i class="fas fa-user login-field-icon"></i>
+                </label>
+                <input type="text" class="login-field" value="" placeholder="Usuario" id="login-name">
+            </div>
+
+            <div class="control-group">
+                <label for="login-pass">
+                    <i class="fas fa-lock login-field-icon"></i>
+                </label>
+                <input type="password" class="login-field" value="" placeholder="Contraseña" id="login-pass">
+                <span onclick="togglePassword()" class="toggle-password"><i id="toggle-icon" class="fas fa-eye"></i></span>
+            </div>
+
+            <a class="btn" href="#" onclick="return validarLogin()">
+                <i class="fas fa-sign-in-alt"></i> Iniciar Sesión
+            </a>
+
+            <p><a href="#" class="forgot-password">¿Olvidaste tu contraseña?</a></p>
+        </div>
+    </div>
+
+    <script>
+        // Función para mostrar/ocultar contraseña
+        function togglePassword() {
+            let passInput = document.getElementById("login-pass");
+            let toggleIcon = document.getElementById("toggle-icon");
+            if (passInput.type === "password") {
+                passInput.type = "text";
+                toggleIcon.classList.remove("fa-eye");
+                toggleIcon.classList.add("fa-eye-slash");
+            } else {
+                passInput.type = "password";
+                toggleIcon.classList.remove("fa-eye-slash");
+                toggleIcon.classList.add("fa-eye");
+            }
+        }
+
+        // Función para validar campos antes de iniciar sesión
+        function validarLogin() {
+            let usuario = document.getElementById("login-name").value.trim();
+            let contraseña = document.getElementById("login-pass").value.trim();
+
+            if (usuario === "" || contraseña === "") {
+                alert("⚠️ Por favor, completa todos los campos.");
+                return false;
+            }
+            
+            // Si pasa la validación, redirige a la página principal
+            window.location.href = "Cal-Eve.html";
+            return false;
+        }
+
+        // Función para cambiar entre modo oscuro/claro
+        function toggleModoOscuro() {
+            document.body.classList.toggle("dark");
+            let icono = document.getElementById("modo-oscuro");
+            if (document.body.classList.contains("dark")) {
+                icono.classList.remove("fa-moon");
+                icono.classList.add("fa-sun");
+            } else {
+                icono.classList.remove("fa-sun");
+                icono.classList.add("fa-moon");
+            }
+        }
+    </script>
 </body>
+
 </html>
